@@ -689,7 +689,7 @@ paths:
                 event:
                   $ref: '#/components/schemas/Event'
                 participant:
-                  $ref: '#/components/schemas/UserAsParticipant'
+                  $ref: '#/components/schemas/Participant'
                 image: 
                   type: array
                   items:
@@ -1252,7 +1252,7 @@ components:
           type: string
         label:
           type: string
-    UserAsParticipant:
+    Participant:
       type: object
       properties:
         id: 
@@ -1284,7 +1284,7 @@ components:
         endingTime:
           type: string
         responsibleUser:
-          $ref: '#/components/schemas/UserAsParticipant'
+          $ref: '#/components/schemas/Participant'
     EventParticipant:
       type: object
       properties:
@@ -1299,7 +1299,7 @@ components:
                 enum: ['present', 'absent']
               participant: 
                 allOf:
-                  - $ref: '#/components/schemas/UserAsParticipant'
+                  - $ref: '#/components/schemas/Participant'
     CreateEventParticipant:
       type: object
       properties:
@@ -1314,7 +1314,7 @@ components:
                 enum: ['present', 'absent']
               participant: 
                 allOf:
-                  - $ref: '#/components/schemas/UserAsParticipant'
+                  - $ref: '#/components/schemas/Participant'
               reference_image: 
                 type: array
                 items: 

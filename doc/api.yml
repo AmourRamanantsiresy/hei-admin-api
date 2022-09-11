@@ -722,7 +722,7 @@ paths:
       summary: Get all participant for one event
       operationId: getEventParticipants
       parameters:
-        - name: event
+        - name: id
           in: path
           description: the event's id
           required: true

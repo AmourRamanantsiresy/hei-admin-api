@@ -649,7 +649,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateEventParticipant'
+              $ref: '#/components/schemas/EventParticipant'
       responses:
         '200':
           description: Success
@@ -659,8 +659,8 @@ paths:
                 type: object
                 properties:
                   event:
-                    $ref: '#/components/schemas/CreateEventParticipant'
-                  expectedParticipant:
+                    $ref: '#/components/schemas/EventParticipant'
+                  expected_participant:
                     type: array
                     items:
                       $ref: '#/components/schemas/Student'
@@ -747,7 +747,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-
 
   '/managers/{id}':
     get:
@@ -1276,14 +1275,13 @@ components:
           type: string
         name:
           type: string
-        eventDate:
+        starting_date:
           type: string
-          format: date
-        startingTime:
+          format: date-time
+        ending_date:
           type: string
-        endingTime:
-          type: string
-        responsibleUser:
+          format: date-time
+        responsible:
           $ref: '#/components/schemas/Participant'
     EventParticipant:
       type: object
@@ -1300,27 +1298,7 @@ components:
               participant: 
                 allOf:
                   - $ref: '#/components/schemas/Participant'
-    CreateEventParticipant:
-      type: object
-      properties:
-        event:
-          $ref: '#/components/schemas/Event'
-        participants:
-          type: array
-          items:
-            type: object
-            properties:
-              status: 
-                enum: ['present', 'absent']
-              participant: 
-                allOf:
-                  - $ref: '#/components/schemas/Participant'
-              reference_image: 
-                type: array
-                items: 
-                  type: string
-                  format: byte
-                  example: reference image as byte array
+    
     CreateFee:
       type: object
       properties:

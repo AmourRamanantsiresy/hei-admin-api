@@ -19,7 +19,7 @@ servers:
   - url: 'https://api-prod.hei.school'
 
 security:
-  - BearerAuth: [ ]
+  - BearerAuth: []
 
 paths:
   '/whoami':
@@ -98,7 +98,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /groups:
+  '/groups':
     get:
       tags:
         - Teaching
@@ -186,7 +186,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /students:
+  '/students':
     get:
       tags:
         - Users
@@ -203,17 +203,17 @@ paths:
             $ref: '#/components/schemas/PageSize'
         - name: ref
           in: query
-          description: "Filter students by ref, case is ignored"
+          description: 'Filter students by ref, case is ignored'
           schema:
             type: string
         - name: first_name
           in: query
-          description: "Filter students by first name, case is ignored"
+          description: 'Filter students by first name, case is ignored'
           schema:
             type: string
         - name: last_name
           in: query
-          description: "Filter students by last name, case is ignored"
+          description: 'Filter students by last name, case is ignored'
           schema:
             type: string
       responses:
@@ -298,7 +298,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /courses:
+  '/courses':
     get:
       tags:
         - Teaching
@@ -381,7 +381,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /teachers:
+  '/teachers':
     get:
       tags:
         - Users
@@ -398,17 +398,17 @@ paths:
             $ref: '#/components/schemas/PageSize'
         - name: ref
           in: query
-          description: "Filter teachers by ref, case is ignored"
+          description: 'Filter teachers by ref, case is ignored'
           schema:
             type: string
         - name: first_name
           in: query
-          description: "Filter teachers by first name, case is ignored"
+          description: 'Filter teachers by first name, case is ignored'
           schema:
             type: string
         - name: last_name
           in: query
-          description: "Filter teachers by last name, case is ignored"
+          description: 'Filter teachers by last name, case is ignored'
           schema:
             type: string
       responses:
@@ -463,6 +463,291 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  '/places':
+    get:
+      tags:
+        - Events
+      summary: Get all places
+      operationId: getPlaces
+      responses:
+        '200':
+          description: List of all places
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Events
+      summary: Create new places or update existing places
+      description: Update places when id are provided, create them otherwise.
+      operationId: createOrUpdatePlaces
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Place'
+      responses:
+        '200':
+          description: The created or updated places
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/places/{id}':
+    get:
+      tags:
+        - Events
+      summary: Get place by identifier
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: getPlaceById
+      responses:
+        '200':
+          description: The identified place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/events':
+    get:
+      tags:
+        - Events
+      summary: Get all events
+      operationId: getEvents
+      responses:
+        '200':
+          description: List of all events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Events
+      summary: Create new events or update existing events
+      description: Update events when id are provided, create them otherwise.
+      operationId: createOrUpdateEvents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: The created or updated event
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/events/{id}':
+    get:
+      tags:
+        - Events
+      summary: Get event by identifier
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: getEventById
+      responses:
+        '200':
+          description: The identified event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/eventParticipants':
+    put:
+      tags:
+        - EventParticipants
+      summary: Specify all expected participant for one event.
+      operationId: putExpectedParticipant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventParticipant'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event:
+                    $ref: '#/components/schemas/CreateEventParticipant'
+                  expectedParticipant:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Student'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/eventParticipants/present':
+    put:
+      tags:
+        - EventParticipants
+      summary: Make present one participant for one event.
+      operationId: makePresentParticipant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event:
+                  $ref: '#/components/schemas/Event'
+                participant:
+                  $ref: '#/components/schemas/UserAsParticipant'
+                image: 
+                  type: array
+                  items:
+                    type: string
+                    format: byte
+                    example: image as byte array
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: string
+                example: The participant {student's name} with the id {student's id}
+                  is now present for the event {event's name} with the id {event's id}
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/eventParticipants/event/{id}': 
+    get:
+      tags:
+        - EventParticipants
+      summary: Get all participant for one event
+      operationId: getEventParticipants
+      parameters:
+        - name: event
+          in: path
+          description: the event's id
+          required: true
+          schema:
+            type: string
+            example: uuid
+      responses:
+        '200':
+          description: List of all participants for one event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventParticipant'
+
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
 
   '/managers/{id}':
     get:
@@ -493,7 +778,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /managers:
+  '/managers':
     get:
       tags:
         - Users
@@ -528,7 +813,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /delay_penalty_change:
+  '/delay_penalty_change':
     post:
       tags:
         - Paying
@@ -558,7 +843,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /delay_penalty:
+  '/delay_penalty':
     get:
       tags:
         - Paying
@@ -582,7 +867,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /students/{student_id}/fees/{fee_id}:
+  '/students/{student_id}/fees/{fee_id}':
     get:
       tags:
         - Paying
@@ -616,7 +901,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /students/{student_id}/fees:
+  '/students/{student_id}/fees':
     get:
       tags:
         - Paying
@@ -703,7 +988,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /fees:
+  '/fees':
     get:
       tags:
         - Paying
@@ -711,7 +996,7 @@ paths:
       parameters:
         - name: status
           in: query
-          description: "See the PaymentStatus object for its value."
+          description: 'See the PaymentStatus object for its value.'
           schema:
             type: string
             default: LATE
@@ -747,7 +1032,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /students/{student_id}/fees/{fee_id}/payments:
+  '/students/{student_id}/fees/{fee_id}/payments':
     get:
       tags:
         - Paying
@@ -835,6 +1120,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -872,6 +1158,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/InternalServerException'
+  
   schemas:
     Whoami:
       properties:
@@ -958,6 +1245,82 @@ components:
           type: integer
         total_hours:
           type: integer
+    Place:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+    UserAsParticipant:
+      type: object
+      properties:
+        id: 
+          type: string
+          example: uuid
+        ref: 
+          type: string
+          example: STD21001
+        first_name: 
+          type: string
+          example: John
+        last_name: 
+          type: string
+          example: Doe
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+        ref:
+          type: string
+        name:
+          type: string
+        eventDate:
+          type: string
+          format: date
+        startingTime:
+          type: string
+        endingTime:
+          type: string
+        responsibleUser:
+          $ref: '#/components/schemas/UserAsParticipant'
+    EventParticipant:
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/Event'
+        participants:
+          type: array
+          items:
+            type: object
+            properties:
+              status: 
+                enum: ['present', 'absent']
+              participant: 
+                allOf:
+                  - $ref: '#/components/schemas/UserAsParticipant'
+    CreateEventParticipant:
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/Event'
+        participants:
+          type: array
+          items:
+            type: object
+            properties:
+              status: 
+                enum: ['present', 'absent']
+              participant: 
+                allOf:
+                  - $ref: '#/components/schemas/UserAsParticipant'
+              reference_image: 
+                type: array
+                items: 
+                  type: string
+                  format: byte
+                  example: reference image as byte array
     CreateFee:
       type: object
       properties:

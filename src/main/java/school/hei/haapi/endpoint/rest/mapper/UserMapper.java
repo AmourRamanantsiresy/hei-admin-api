@@ -3,13 +3,13 @@ package school.hei.haapi.endpoint.rest.mapper;
 import org.springframework.stereotype.Component;
 import school.hei.haapi.endpoint.rest.model.EnableStatus;
 import school.hei.haapi.endpoint.rest.model.Manager;
+import school.hei.haapi.endpoint.rest.model.Participant;
 import school.hei.haapi.endpoint.rest.model.Student;
 import school.hei.haapi.endpoint.rest.model.Teacher;
 import school.hei.haapi.model.User;
 
 @Component
 public class UserMapper {
-
   public Student toRestStudent(User user) {
     Student restStudent = new Student();
     restStudent.setId(user.getId());
@@ -63,6 +63,15 @@ public class UserMapper {
 
     return manager;
   }
+  public Participant toRestParticipant(User user){
+    Participant participant = new Participant();
+    participant.setId(user.getId());
+    participant.setRef(user.getRef());
+    participant.setFirstName(user.getFirstName());
+    participant.setLastName(user.getLastName());
+
+    return participant;
+  }
 
   public User toDomain(Teacher teacher) {
     return User.builder()
@@ -96,5 +105,14 @@ public class UserMapper {
         .sex(User.Sex.valueOf(student.getSex().toString()))
         .address(student.getAddress())
         .build();
+  }
+
+  public User toDomain(Participant participant){
+    return User.builder()
+            .id(participant.getId())
+            .ref(participant.getRef())
+            .firstName(participant.getFirstName())
+            .lastName(participant.getLastName())
+            .build();
   }
 }

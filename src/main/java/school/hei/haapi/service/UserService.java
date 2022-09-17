@@ -1,6 +1,7 @@
 package school.hei.haapi.service;
 
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,31 +41,35 @@ public class UserService {
     userValidator.accept(users);
     List<User> savedUsers = userRepository.saveAll(users);
     eventProducer.accept(users.stream()
-        .map(this::toTypedEvent)
-        .collect(toUnmodifiableList()));
+            .map(this::toTypedEvent)
+            .collect(toUnmodifiableList()));
     return savedUsers;
   }
 
   private TypedUserUpserted toTypedEvent(User user) {
     return new TypedUserUpserted(
-        new UserUpserted()
-            .userId(user.getId())
-            .email(user.getEmail()));
+            new UserUpserted()
+                    .userId(user.getId())
+                    .email(user.getEmail()));
   }
 
   public List<User> getByRole(User.Role role, PageFromOne page, BoundedPageSize pageSize) {
-    return getByCriteria(role, "", "", "", page, pageSize);
+    return getByCriteria(role, "", "", "", "", page, pageSize);
+  }
+
+  public List<User> getByGroup(String groupRef, PageFromOne page, BoundedPageSize pageSize) {
+    return getByCriteria(User.Role.STUDENT, "", "", "", groupRef, page, pageSize);
   }
 
   public List<User> getByCriteria(
-      User.Role role, String firstName, String lastName, String ref,
-      PageFromOne page, BoundedPageSize pageSize) {
+          User.Role role, String firstName, String lastName, String ref, String groupRef,
+          PageFromOne page, BoundedPageSize pageSize) {
     Pageable pageable = PageRequest.of(
-        page.getValue() - 1,
-        pageSize.getValue(),
-        Sort.by(ASC, "ref"));
+            page.getValue() - 1,
+            pageSize.getValue(),
+            Sort.by(ASC, "ref"));
     return userRepository
-        .findByRoleAndRefContainingIgnoreCaseAndFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(
-           role, ref, firstName, lastName, pageable);
+            .findByRoleAndRefContainingIgnoreCaseAndFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndGroup_Ref(
+                    role, ref, firstName, lastName, groupRef, pageable);
   }
 }

@@ -216,6 +216,11 @@ paths:
           description: 'Filter students by last name, case is ignored'
           schema:
             type: string
+        - name: group
+          in: query
+          description: 'Filter students by group reference (G1, G2)'
+          schema:
+            type: string
       responses:
         '200':
           description: List of students, ordered by ref.
@@ -638,115 +643,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-
-  '/eventParticipants':
-    put:
-      tags:
-        - EventParticipants
-      summary: Specify all expected participant for one event.
-      operationId: putExpectedParticipant
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EventParticipant'
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  event:
-                    $ref: '#/components/schemas/EventParticipant'
-                  expected_participant:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Student'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  '/eventParticipants/present':
-    put:
-      tags:
-        - EventParticipants
-      summary: Make present one participant for one event.
-      operationId: makePresentParticipant
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                event:
-                  $ref: '#/components/schemas/Event'
-                participant:
-                  $ref: '#/components/schemas/Participant'
-                image: 
-                  type: array
-                  items:
-                    type: string
-                    format: byte
-                    example: image as byte array
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: string
-                example: The participant {student's name} with the id {student's id}
-                  is now present for the event {event's name} with the id {event's id}
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  '/eventParticipants/event/{id}': 
-    get:
-      tags:
-        - EventParticipants
-      summary: Get all participant for one event
-      operationId: getEventParticipants
-      parameters:
-        - name: id
-          in: path
-          description: the event's id
-          required: true
-          schema:
-            type: string
-            example: uuid
-      responses:
-        '200':
-          description: List of all participants for one event
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EventParticipant'
-
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+  
 
   '/managers/{id}':
     get:
@@ -1209,6 +1106,10 @@ components:
     Student:
       allOf:
         - $ref: '#/components/schemas/User'
+      type: object
+      properties:
+        group:
+          $ref: '#/components/schemas/Group'
     Teacher:
       allOf:
         - $ref: '#/components/schemas/User'
